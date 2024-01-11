@@ -1,42 +1,40 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // При клике на категорию "Электротехника"
+
     document.getElementById('category-electro').addEventListener('click', function () {
         loadProducts(['Электротехника']);
     });
 
-    // При клике на категорию "Электроника"
+  
     document.getElementById('category-electronic').addEventListener('click', function () {
         loadProducts(['Электроника']);
     });
-
-    // При клике на "Все товары"
-    document.getElementById('all-products').addEventListener('click', function () {
+document.getElementById('all-products').addEventListener('click', function () {
         loadProducts([]);
     });
 
-    // При клике на кнопку "Корзина"
+   
     document.getElementById('cart').addEventListener('click', function () {
         window.location.href = '/cart';
     });
 
-    // Инициализация загрузки всех товаров при загрузке страницы
+   
     loadProducts();
 
-    // Функция для загрузки товаров с сервера по категории
+  
     function loadProducts(categories = []) {
         const productsContainer = document.getElementById('products-container');
-        productsContainer.innerHTML = ''; // Очищаем контейнер перед загрузкой новых товаров
+        productsContainer.innerHTML = ''; 
 
-        // Если есть выбранные категории, формируем URL запроса с учетом всех выбранных
+        
         const url = categories.length > 0
             ? `/api/products?categories=${encodeURIComponent(categories.join(','))}`
             : '/api/products';
 
-        // Загрузка товаров с сервера
+       
         fetch(url)
             .then(response => response.json())
             .then(products => {
-                // Отображение товаров на странице
+                
                 products.forEach(product => {
                     const productCard = createProductCard(product);
                     productsContainer.appendChild(productCard);
@@ -44,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
 
-    // Функция для создания карточки товара
+  
     function createProductCard(product) {
         const card = document.createElement('div');
         card.className = 'product-card';
@@ -70,7 +68,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return card;
     }
 
-    // Функция для добавления товара в корзину
+ 
     function addToCart(product) {
         fetch('/api/cart', {
             method: 'POST',
@@ -83,8 +81,5 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(updatedCart => {
             console.log('Товар добавлен в корзину:', product);
         })
-        .catch(error => {
-            console.error('Ошибка при добавлении товара в корзину:', error);
-        });
     }
 });

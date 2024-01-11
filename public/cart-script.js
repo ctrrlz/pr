@@ -1,18 +1,18 @@
 document.addEventListener('DOMContentLoaded', () => {
     const cartContainer = document.getElementById('cart-container');
 
-    // Загрузка товаров в корзине с сервера
+   
     fetch('/api/cart')
         .then(response => response.json())
         .then(cartItems => {
-            // Отображение товаров в корзине
+        
             cartItems.forEach(item => {
                 const cartItemCard = createCartItemCard(item);
                 cartContainer.appendChild(cartItemCard);
             });
         });
 
-    // Функция для создания карточки товара в корзине
+    
     function createCartItemCard(item) {
         const card = document.createElement('div');
         card.className = 'product-card';
@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return card;
     }
 
-    // Функция для удаления товара из корзины
+   
     function removeFromCart(item) {
         fetch('/api/cart/remove', {
             method: 'POST',
@@ -50,11 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(response => response.json())
         .then(updatedCart => {
             console.log('Товар удален из корзины:', item);
-            // Перезагрузка страницы после удаления товара (вы можете использовать другие способы обновления)
             location.reload();
         })
-        .catch(error => {
-            console.error('Ошибка при удалении товара из корзины:', error);
-        });
+        
     }
 });
